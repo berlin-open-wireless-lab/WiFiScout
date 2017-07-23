@@ -1,0 +1,5 @@
+.env
+*.pcap
+*.sqlite3
+*.lock
+__pycache__/
