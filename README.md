@@ -4,6 +4,8 @@
 
 ## Setup
 
+You need to have `tshark` installed. It generally comes with Wireshark.
+
 ### SQLite database
 
 If you want to use the Fingerbank SQLite database, you will need to download it
