@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
 
 import argparse
+import datetime
 import json
 import os
 import sys
+import uuid
 
 import pyshark
 import netifaces
 
 import fingerbank
+from manuf import get_oui_vendor_name
+
+OUTPUT_PATH = 'output/'
+DB_JSON_FILE_NAME = 'device.json'
 
 # Value of type field for each request
 PROBE_REQUEST = '4'
@@ -246,7 +252,26 @@ def main():
 
         conn.close()
 
-    print(json.dumps(valid_clients, indent=2, separators=(',', ': ')))
+    device = {}
+
+    for c in valid_clients:
+        device["uuid"] = str(uuid.uuid4())
+        device["name"] = valid_clients[c]["name"]
+        device["wifi_signature"] = valid_clients[c]["wifi_signature"]
+        device["mac_vendor"] = get_oui_vendor_name(valid_clients[c]["oui"], "manuf")
+        device["created_at"] = str(datetime.datetime.now())
+        device["modified_at"] = device["created_at"]
+        device["image_url"] = ""
+
+        device_path = OUTPUT_PATH + device["uuid"] + '/'
+
+        if not os.path.exists(device_path):
+            os.makedirs(device_path)
+
+        with open(device_path + DB_JSON_FILE_NAME, 'w') as f:
+            f.write(json.dumps(device, indent=4))
+
+        print(json.dumps(device, indent=2, separators=(',', ': ')))
 
 
 if __name__ == "__main__":

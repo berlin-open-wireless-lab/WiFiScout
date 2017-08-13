@@ -3,3 +3,5 @@
 *.sqlite3
 *.lock
 __pycache__/
+output/
+manuf
