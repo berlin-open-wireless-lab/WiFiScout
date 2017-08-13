@@ -20,6 +20,12 @@ and set the `$FINGERBANK_API_KEY` env variable accordingly.
 
 e.g: `export FINGERBANK_API_KEY="ABCDEF123456789"`
 
+### OUI database
+
+You need a wireshark OUI database file for OUI lookups. The last version is available at https://code.wireshark.org/review/gitweb?p=wireshark.git;a=blob_plain;f=manuf;hb=HEAD
+
+Save it as `manuf`.
+
 ### Python dependencies
 
 ```
@@ -29,8 +35,6 @@ pip install -r requirements.txt
 A `Pipfile` is included if you are familiar with [`pipenv`](https://github.com/kennethreitz/pipenv).
 
 ## Run
-
-Your WLAN interface must be in monitor mode on the same channel than the desired network.
 
 ```
 usage: collector.py [-h] [-f FILE | -i INTERFACE] [--api | --db] ssid
@@ -48,3 +52,5 @@ querying method:
   --api                 query the Fingerbank API
   --db                  query the Fingerbank SQLite db
 ```
+
+Found devices information will be stored in the `OUTPUT_PATH` (see `collector.py`) folder.
